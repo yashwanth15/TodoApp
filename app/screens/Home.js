@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image} from 'react-native';
+import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, FlatList} from 'react-native';
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
 
@@ -10,10 +10,11 @@ export default class Home extends Component<Props> {
   constructor(props){
     super(props);
     this.state={
-
+      isLoading:false
     }
     this.handleOnClickItem=this.handleOnClickItem.bind(this);
     this.handleOnClickCreate=this.handleOnClickCreate.bind(this);
+    this.handleRetry=this.handleRetry.bind(this);
   }
 
   handleOnClickItem=()=>{
@@ -24,13 +25,26 @@ export default class Home extends Component<Props> {
     this.props.navigation.navigate('CreateTodo')
   }
 
+  handleRetry=()=>{
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.item} onPress={()=>this.handleOnClickItem()}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.context}>Context</Text>
-        </TouchableOpacity>
+        <FlatList
+          data={[{key:'1',title:'Title',context:'Context'},{key:'2',title:'Title',context:'Context'}]}
+          keyExtractor={(item, index) => item.key}
+          refreshing={this.state.isLoading}
+          onRefresh={()=>this.handleRetry()}
+          renderItem={({item})=>(
+            <TouchableOpacity style={styles.card} key={item.key} onPress={()=>this.handleOnClickItem()}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.context}>{item.context}</Text>
+            </TouchableOpacity>
+          )}
+        />
+
         <TouchableOpacity style={styles.add} onPress={()=>this.handleOnClickCreate()}>
           <Image style={styles.image} source={require('../assets/images/add.png')}/>
         </TouchableOpacity>
@@ -55,7 +69,7 @@ const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
   },
-  item:{
+  card:{
     borderWidth:1,
     borderColor:color.black,
     backgroundColor:color.white,
