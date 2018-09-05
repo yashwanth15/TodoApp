@@ -33,20 +33,20 @@ export default class CreateTodo extends Component<Props> {
           multiline = {true}
           autoCorrect={true}
           autoFocus={true}
-          placeholder={'Title'}
+          placeholder={string.title}
          />
          <TextInput style={styles.context}
            onChangeText={(text)=>this.setState({context:text})}
            multiline = {true}
            autoCorrect={true}
-           placeholder={'Context'}
+           placeholder={string.context}
           />
         <View style={styles.buttons}>
           <TouchableOpacity style={styles.cancel} onPress={()=>this.handleOnClickCancel()}>
-            <Text style={styles.cancelText}>CANCEL</Text>
+            <Text style={styles.cancelText}>{string.cancel}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.done} onPress={()=>this.handleOnClickDone()}>
-            <Text style={styles.doneText}>DONE</Text>
+            <Text style={styles.doneText}>{string.done}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginHorizontal:'2%',
     marginTop:'2%',
     fontSize:18,
-    fontWeight:'bold',
+    fontFamily:string.robotoRegular,
     paddingHorizontal:'3%',
   },
   context:{
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize:15,
     paddingHorizontal:'3%',
     flex:1,
+    fontFamily:string.robotoLight,
     textAlignVertical: 'top'
   },
   buttons:{
@@ -100,10 +101,12 @@ const styles = StyleSheet.create({
   },
   cancelText:{
     color:color.black,
-    fontSize:13
+    fontSize:13,
+    fontFamily:string.robotoLight
   },
   doneText:{
     color:color.white,
-    fontSize:13
+    fontSize:13,
+    fontFamily:string.robotoLight
   }
 });

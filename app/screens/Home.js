@@ -78,12 +78,13 @@ const styles = StyleSheet.create({
   },
   title:{
     color:color.black,
-    fontWeight:'bold',
-    fontSize:18
+    fontSize:18,
+    fontFamily:string.robotoRegular
   },
   context:{
     color:color.black,
     fontSize:13,
-    marginTop:'1%'
+    marginTop:'1%',
+    fontFamily:string.robotoLight
   }
 });

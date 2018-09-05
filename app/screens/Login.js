@@ -23,7 +23,7 @@ export default class Login extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={{backgroundColor:color.black}}>
-          <Text style={styles.todo}>{string.TODO}</Text>
+          <Text style={styles.todo}>{string.todo}</Text>
         </View>
         <Text style={styles.continueWith}>{string.continueWith}</Text>
         <View style={{flexDirection:'row'}}>
@@ -48,19 +48,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor:color.white,
-    color:color.black
   },
   todo: {
     fontSize: 20,
     textAlign: 'center',
     margin: HEIGHT/25,
-    color:color.white
+    color:color.white,
+    fontFamily:string.robotoLight
   },
   continueWith:{
     fontSize: 15,
     textAlign: 'center',
     marginVertical: HEIGHT/10,
-    color:color.black
+    color:color.black,
+    fontFamily:string.robotoLight
   },
   logo:{
     width:HEIGHT/20,
