@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image} from 'react-native';
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
+import FBSDK, { AccessToken,LoginManager} from 'react-native-fbsdk'
+import Toast from 'react-native-simple-toast';
 
 const HEIGHT=Dimensions.get('window').height
 
@@ -9,13 +11,32 @@ export default class Login extends Component<Props> {
 
   constructor(props){
     super(props);
-    this.state={
-
-    }
-    this.handleOnClick=this.handleOnClick.bind(this);
+    this.state={}
+    this.handleOnClickFacebook=this.handleOnClickFacebook.bind(this);
+    this.handleOnClickGoogle=this.handleOnClickGoogle.bind(this);
+    this.handleOnClickNumber=this.handleOnClickNumber.bind(this);
   }
 
-  handleOnClick=()=>{
+  handleOnClickFacebook=()=>{
+    const that = this
+    LoginManager.logInWithReadPermissions(['public_profile']).then(
+      function(result) {
+        if (result.isCancelled) {
+          Toast.show('Login was cancelled');
+        } else {
+          that.props.navigation.navigate('Home')
+          Toast.show('Logged in!')
+        }
+      },
+      function(error) {
+        Toast.show('Login failed with error: ' + error);
+      }
+    );
+  }
+  handleOnClickGoogle=()=>{
+    this.props.navigation.navigate('Home')
+  }
+  handleOnClickNumber=()=>{
     this.props.navigation.navigate('Home')
   }
 
@@ -27,13 +48,13 @@ export default class Login extends Component<Props> {
         </View>
         <Text style={styles.continueWith}>{string.continueWith}</Text>
         <View style={{flexDirection:'row'}}>
-          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClick()}>
+          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickFacebook()}>
             <Image style={styles.image} source={require('../assets/images/facebook.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClick()}>
+          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickGoogle()}>
             <Image style={styles.image} source={require('../assets/images/google.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClick()}>
+          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickNumber()}>
             <Image style={styles.image} source={require('../assets/images/whatsapp.png')}/>
           </TouchableOpacity>
         </View>
