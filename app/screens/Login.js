@@ -4,6 +4,8 @@ import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
 import FBSDK, { AccessToken,LoginManager} from 'react-native-fbsdk'
 import Toast from 'react-native-simple-toast';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+
 
 const HEIGHT=Dimensions.get('window').height
 
@@ -11,11 +13,39 @@ export default class Login extends Component<Props> {
 
   constructor(props){
     super(props);
-    this.state={}
+    this.state={
+      userInfo:null
+    }
     this.handleOnClickFacebook=this.handleOnClickFacebook.bind(this);
     this.handleOnClickGoogle=this.handleOnClickGoogle.bind(this);
     this.handleOnClickNumber=this.handleOnClickNumber.bind(this);
+    this._signIn=this._signIn.bind(this);
   }
+
+  _signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      this.setState({ userInfo });
+      console.log('user',userInfo);
+      if (this.state.userInfo) {
+        this.props.navigation.navigate('Home')
+      }
+    }catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('cancelled');
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('loading');
+        // operation (f.e. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('google play not available');
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
 
   handleOnClickFacebook=()=>{
     const that = this
@@ -33,11 +63,16 @@ export default class Login extends Component<Props> {
       }
     );
   }
+
   handleOnClickGoogle=()=>{
     this.props.navigation.navigate('Home')
   }
   handleOnClickNumber=()=>{
     this.props.navigation.navigate('Home')
+  }
+
+  componentDidMount(){
+    GoogleSignin.configure();
   }
 
   render() {
@@ -51,7 +86,7 @@ export default class Login extends Component<Props> {
           <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickFacebook()}>
             <Image style={styles.image} source={require('../assets/images/facebook.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickGoogle()}>
+          <TouchableOpacity style={styles.logo} onPress={()=>this._signIn()}>
             <Image style={styles.image} source={require('../assets/images/google.png')}/>
           </TouchableOpacity>
           <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickNumber()}>
