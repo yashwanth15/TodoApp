@@ -66,25 +66,25 @@
 		<string>Roboto-Thin.ttf</string>
 		<string>Roboto-ThinItalic.ttf</string>
 	</array>
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb304961643421587</string>
-      </array>
-    </dict>
-  </array>
-  <key>FacebookAppID</key>
-  <string>304961643421587</string>
-  <key>FacebookDisplayName</key>
-  <string>TodoApp</string>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>fbapi</string>
-    <string>fb-messenger-share-api</string>
-    <string>fbauth2</string>
-    <string>fbshareextension</string>
-  </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb304961643421587</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>304961643421587</string>
+	<key>FacebookDisplayName</key>
+	<string>TodoApp</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>
