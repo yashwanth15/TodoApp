@@ -16,13 +16,13 @@ export default class Login extends Component<Props> {
     this.state={
       userInfo:null
     }
-    this.handleOnClickFacebook=this.handleOnClickFacebook.bind(this);
+    this.facebookSignin=this.facebookSignin.bind(this);
     this.handleOnClickGoogle=this.handleOnClickGoogle.bind(this);
-    this.handleOnClickNumber=this.handleOnClickNumber.bind(this);
-    this._signIn=this._signIn.bind(this);
+    this.numberSignin=this.numberSignin.bind(this);
+    this.googleSignin=this.googleSignin.bind(this);
   }
 
-  _signIn = async () => {
+  googleSignin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -47,7 +47,7 @@ export default class Login extends Component<Props> {
     }
   };
 
-  handleOnClickFacebook=()=>{
+  facebookSignin=()=>{
     const that = this
     LoginManager.logInWithReadPermissions(['public_profile']).then(
       function(result) {
@@ -67,7 +67,7 @@ export default class Login extends Component<Props> {
   handleOnClickGoogle=()=>{
     this.props.navigation.navigate('Home')
   }
-  handleOnClickNumber=()=>{
+  numberSignin=()=>{
     this.props.navigation.navigate('Home')
   }
 
@@ -83,13 +83,13 @@ export default class Login extends Component<Props> {
         </View>
         <Text style={styles.continueWith}>{string.continueWith}</Text>
         <View style={{flexDirection:'row'}}>
-          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickFacebook()}>
+          <TouchableOpacity style={styles.logo} onPress={()=>this.facebookSignin()}>
             <Image style={styles.image} source={require('../assets/images/facebook.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logo} onPress={()=>this._signIn()}>
+          <TouchableOpacity style={styles.logo} onPress={()=>this.googleSignin()}>
             <Image style={styles.image} source={require('../assets/images/google.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logo} onPress={()=>this.handleOnClickNumber()}>
+          <TouchableOpacity style={styles.logo} onPress={()=>this.numberSignin()}>
             <Image style={styles.image} source={require('../assets/images/whatsapp.png')}/>
           </TouchableOpacity>
         </View>
