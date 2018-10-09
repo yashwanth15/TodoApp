@@ -1,5 +1,5 @@
 <resources>
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">xUkGEAkBHRxAlAbZXk3Q0S7cm0vP5a537224-7923-4395-8bfb-18ba674e2656</string>
     <string name="app_name">TodoApp</string>
     <string name="facebook_app_id">304961643421587</string>
     <string name="fb_login_protocol_scheme">fb304961643421587</string>
