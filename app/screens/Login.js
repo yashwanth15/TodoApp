@@ -14,7 +14,8 @@ export default class Login extends Component<Props> {
   constructor(props){
     super(props);
     this.state={
-      userInfo:null
+      userInfo:null,
+      accessToken:''
     }
     this.facebookSignin=this.facebookSignin.bind(this);
     this.handleOnClickGoogle=this.handleOnClickGoogle.bind(this);
@@ -51,12 +52,23 @@ export default class Login extends Component<Props> {
     const that = this
     LoginManager.logInWithReadPermissions(['public_profile']).then(
       function(result) {
+        console.log('facebook_props',result);
         if (result.isCancelled) {
           Toast.show('Login was cancelled');
         } else {
-          that.props.navigation.navigate('Home')
-          Toast.show('Logged in!')
-        }
+          AccessToken.getCurrentAccessToken().then(
+            (data) => {
+              let accessToken=data.accessToken.toString()
+              that.setState({
+                accessToken:accessToken
+              },()=>{
+                console.log(accessToken)
+              })
+            })
+          }
+          // that.props.navigation.navigate('Home')
+          // Toast.show('Logged in!')
+
       },
       function(error) {
         Toast.show('Login failed with error: ' + error);
