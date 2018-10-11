@@ -11,7 +11,8 @@ class Home extends Component<Props> {
   constructor(props){
     super(props);
     this.state={
-      isLoading:false
+      isLoading:false,
+      todos:[]
     }
     this.handleOnClickItem=this.handleOnClickItem.bind(this);
     this.handleOnClickCreate=this.handleOnClickCreate.bind(this);
@@ -30,6 +31,15 @@ class Home extends Component<Props> {
 
   }
 
+  componentWillReceiveProps(props){
+    console.log('in props',props);
+    if (this.state.todos.length!=props.todos.length) {
+      this.setState({
+        todos:props.todos
+      },()=>console.log('Props',this.state.todos))
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -40,12 +50,12 @@ class Home extends Component<Props> {
           </TouchableOpacity>
         </View>
         <FlatList style={{marginTop:'2%'}}
-          data={[{key:'1',title:'Title',context:'Context'},{key:'2',title:'Title',context:'Context'}]}
-          keyExtractor={(item, index) => item.key}
+          data={this.state.todos}
+          keyExtractor={(item, index) => index}
           refreshing={this.state.isLoading}
           onRefresh={()=>this.handleRetry()}
           renderItem={({item})=>(
-            <TouchableOpacity style={styles.card} key={item.key} onPress={()=>this.handleOnClickItem()}>
+            <TouchableOpacity style={styles.card} onPress={()=>this.handleOnClickItem()}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.context}>{item.context}</Text>
             </TouchableOpacity>
@@ -59,11 +69,11 @@ class Home extends Component<Props> {
   }
 }
 
-function mapStateToProps(state)  {
-    return {
-      first_name:state.userInfo.first_name
-    };
-}
+const mapStateToProps=(state)=>  ({
+  first_name:state.userInfo.first_name,
+  todos:state.saveTodo.todos,
+  changed:state.saveTodo.changed,
+})
 
 export default connect(mapStateToProps)(Home);
 

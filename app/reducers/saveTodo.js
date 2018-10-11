@@ -1,7 +1,8 @@
 import constants from '../resource/constants'
 
 var initialState ={
-  todos:[]
+  todos:[],
+  changed:false,
 }
 
 export default (state = initialState, action) => {
@@ -10,7 +11,7 @@ export default (state = initialState, action) => {
     let todos=state.todos;
     todos.push({title:action.payload.title,context:action.payload.context})
     console.log(todos);
-    return {...state,todos:todos}
+    return {...state,todos:todos,changed:!state.changed}
    default:
      return state;
  }

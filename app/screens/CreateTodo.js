@@ -3,6 +3,7 @@ import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, T
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
 import { connect } from 'react-redux';
+import store from '../config/store';
 import {saveTodo} from '../actions/saveTodo'
 import Toast from 'react-native-simple-toast';
 
@@ -27,6 +28,7 @@ class CreateTodo extends Component<Props> {
   handleOnClickDone=()=>{
     if (this.state.title!=''||this.state.context!='') {
       this.props.saveTodo({title:this.state.title,context:this.state.context})
+      console.log(store.getState())
       this.props.navigation.pop()
     }else {
       Toast.show('Empty fields!');
