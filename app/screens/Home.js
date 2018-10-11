@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, FlatList} from 'react-native';
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
+import { connect } from 'react-redux';
 
 const HEIGHT=Dimensions.get('window').height
 
-export default class Home extends Component<Props> {
+class Home extends Component<Props> {
 
   constructor(props){
     super(props);
@@ -32,7 +33,13 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
+        <View style={styles.header}>
+          <Text style={styles.first_name}>{this.props.first_name}</Text>
+          <TouchableOpacity style={styles.logout}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList style={{marginTop:'2%'}}
           data={[{key:'1',title:'Title',context:'Context'},{key:'2',title:'Title',context:'Context'}]}
           keyExtractor={(item, index) => item.key}
           refreshing={this.state.isLoading}
@@ -53,10 +60,41 @@ export default class Home extends Component<Props> {
   }
 }
 
+function mapStateToProps(state)  {
+    return {
+      first_name:state.userInfo.first_name
+    };
+}
+
+export default connect(mapStateToProps)(Home);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding:'3%',
     backgroundColor:color.white
+  },
+  header:{
+    flexDirection:'row',
+    backgroundColor:color.grey,
+    justifyContent:'space-between',
+  },
+  first_name:{
+    fontFamily:string.robotoLight,
+    fontSize:20,
+    margin:'3%',
+  },
+  logout:{
+    backgroundColor:color.black,
+    fontSize:16,
+    justifyContent:'center',
+    textAlign:'center',
+    alignItems:'center',
+  },
+  logoutText:{
+    fontFamily:string.robotoLight,
+    margin:'3%',
+    color:color.white
   },
   add:{
     position:'absolute',
