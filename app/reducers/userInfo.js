@@ -1,15 +1,17 @@
 import constants from '../resource/constants'
 
 var initialState ={
-  firstName:'',
-  lastName:'',
-  email:''
+  first_name:'',
+  last_name:'',
+  email:'',
+  id:null,
 }
 
 export default (state = initialState, action) => {
  switch(action.type){
-   case constants.USER_INFO:
-     return {...state,firstName:action.payload.firstName,lastName:action.payload.lastName,email:action.payload.email}
+   case constants.SAVE_USER_INFO:
+    console.log(action);
+     return {...state,first_name:action.payload.first_name,last_name:action.payload.last_name,email:action.payload.email,id:action.payload.id}
    default:
      return state;
  }

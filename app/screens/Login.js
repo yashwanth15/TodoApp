@@ -2,25 +2,27 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image} from 'react-native';
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
+import { connect } from 'react-redux';
 import FBSDK, { AccessToken,LoginManager} from 'react-native-fbsdk'
 import Toast from 'react-native-simple-toast';
+import {saveUserInfo} from '../actions/saveUserInfo'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
-
+const {GraphRequest,GraphRequestManager} = FBSDK;
 const HEIGHT=Dimensions.get('window').height
 
-export default class Login extends Component<Props> {
+class Login extends Component<Props> {
 
   constructor(props){
     super(props);
     this.state={
       userInfo:null,
-      accessToken:''
     }
     this.facebookSignin=this.facebookSignin.bind(this);
     this.handleOnClickGoogle=this.handleOnClickGoogle.bind(this);
     this.numberSignin=this.numberSignin.bind(this);
     this.googleSignin=this.googleSignin.bind(this);
+    this._graphRequest=this._graphRequest.bind(this);
   }
 
   googleSignin = async () => {
@@ -48,9 +50,35 @@ export default class Login extends Component<Props> {
     }
   };
 
+  _graphRequest(accessToken){
+    const that=this
+    const getUserInfo = new GraphRequest(
+      '/me',
+      {accessToken: accessToken,
+      parameters: {
+        fields: {
+          string: 'first_name,last_name,email'
+        }
+      }
+      },
+      function(error , response){
+        console.log('in GraphRequest',error,response)
+        if(error){
+          that._graphRequest()
+        }
+        else{
+          that.props.saveUserInfo(response);
+          that.props.navigation.navigate('Home')
+          Toast.show('Logged in!')
+        }
+      }
+    );
+    new GraphRequestManager().addRequest(getUserInfo).start();
+  }
+
   facebookSignin=()=>{
     const that = this
-    LoginManager.logInWithReadPermissions(['public_profile']).then(
+    LoginManager.logInWithReadPermissions(["email", "public_profile"]).then(
       function(result) {
         console.log('facebook_props',result);
         if (result.isCancelled) {
@@ -59,16 +87,9 @@ export default class Login extends Component<Props> {
           AccessToken.getCurrentAccessToken().then(
             (data) => {
               let accessToken=data.accessToken.toString()
-              that.setState({
-                accessToken:accessToken
-              },()=>{
-                console.log(accessToken)
-              })
+              that._graphRequest(accessToken)
             })
           }
-          // that.props.navigation.navigate('Home')
-          // Toast.show('Logged in!')
-
       },
       function(error) {
         Toast.show('Login failed with error: ' + error);
@@ -109,6 +130,15 @@ export default class Login extends Component<Props> {
     );
   }
 }
+
+function mapStateToProps(state)  {
+    return {
+    };
+}
+
+export default connect(mapStateToProps, {
+  saveUserInfo
+})(Login);
 
 const styles = StyleSheet.create({
   container: {

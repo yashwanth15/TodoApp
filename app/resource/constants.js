@@ -1,3 +1,3 @@
 export default constants={
-  USER_INFO:'USER_INFO',
+  SAVE_USER_INFO:'SAVE_USER_INFO',
 }

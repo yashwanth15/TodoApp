@@ -10,9 +10,11 @@ import { Provider } from 'react-redux';
 export default class App extends Component<Props> {
   render() {
     return (
-      <SafeAreaView style={{flex:1,backgroundColor:'black'}}>
-        <RootStack/>
-      </SafeAreaView>
+      <Provider store={store}>
+        <SafeAreaView style={{flex:1,backgroundColor:'black'}}>
+          <RootStack/>
+        </SafeAreaView>
+      </Provider>
     );
   }
 }
