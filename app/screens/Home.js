@@ -51,7 +51,6 @@ class Home extends Component<Props> {
             </TouchableOpacity>
           )}
         />
-
         <TouchableOpacity style={styles.add} onPress={()=>this.handleOnClickCreate()}>
           <Image style={styles.image} source={require('../assets/images/add.png')}/>
         </TouchableOpacity>

@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, TextInput} from 'react-native';
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
+import { connect } from 'react-redux';
+import {saveTodo} from '../actions/saveTodo'
+import Toast from 'react-native-simple-toast';
 
 const HEIGHT=Dimensions.get('window').height
 
-export default class CreateTodo extends Component<Props> {
+class CreateTodo extends Component<Props> {
 
   constructor(props){
     super(props);
@@ -22,7 +25,12 @@ export default class CreateTodo extends Component<Props> {
   }
 
   handleOnClickDone=()=>{
-    this.props.navigation.pop()
+    if (this.state.title!=''||this.state.context!='') {
+      this.props.saveTodo({title:this.state.title,context:this.state.context})
+      this.props.navigation.pop()
+    }else {
+      Toast.show('Empty fields!');
+    }
   }
 
   render() {
@@ -53,6 +61,15 @@ export default class CreateTodo extends Component<Props> {
     );
   }
 }
+
+function mapStateToProps(state)  {
+    return {
+    };
+}
+
+export default connect(mapStateToProps, {
+  saveTodo
+})(CreateTodo);
 
 const styles = StyleSheet.create({
   container: {
