@@ -51,7 +51,7 @@ class Home extends Component<Props> {
         </View>
         <FlatList style={{marginTop:'2%'}}
           data={this.state.todos}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index+''}
           refreshing={this.state.isLoading}
           onRefresh={()=>this.handleRetry()}
           renderItem={({item})=>(

@@ -5,7 +5,7 @@ import {color} from '../resource/color.js'
 import { connect } from 'react-redux';
 import FBSDK, { AccessToken,LoginManager} from 'react-native-fbsdk'
 import Toast from 'react-native-simple-toast';
-import {saveUserInfo} from '../actions/saveUserInfo'
+import {saveUserInfoFromGoogle,saveUserInfoFromFacebook} from '../actions/saveUserInfo'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 const {GraphRequest,GraphRequestManager} = FBSDK;
@@ -19,7 +19,6 @@ class Login extends Component<Props> {
       userInfo:null,
     }
     this.facebookSignin=this.facebookSignin.bind(this);
-    this.handleOnClickGoogle=this.handleOnClickGoogle.bind(this);
     this.numberSignin=this.numberSignin.bind(this);
     this.googleSignin=this.googleSignin.bind(this);
     this._graphRequest=this._graphRequest.bind(this);
@@ -29,11 +28,9 @@ class Login extends Component<Props> {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      this.setState({ userInfo });
-      console.log('user',userInfo);
-      if (this.state.userInfo) {
-        this.props.navigation.navigate('Home')
-      }
+      console.log('user',userInfo.user);
+      this.props.saveUserInfoFromGoogle(userInfo.user);
+      this.props.navigation.navigate('Home');
     }catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('cancelled');
@@ -67,7 +64,7 @@ class Login extends Component<Props> {
           that._graphRequest()
         }
         else{
-          that.props.saveUserInfo(response);
+          that.props.saveUserInfoFromFacebook(response);
           that.props.navigation.navigate('Home')
           Toast.show('Logged in!')
         }
@@ -97,9 +94,6 @@ class Login extends Component<Props> {
     );
   }
 
-  handleOnClickGoogle=()=>{
-    this.props.navigation.navigate('Home')
-  }
   numberSignin=()=>{
     this.props.navigation.navigate('Home')
   }
@@ -122,9 +116,6 @@ class Login extends Component<Props> {
           <TouchableOpacity style={styles.logo} onPress={()=>this.googleSignin()}>
             <Image style={styles.image} source={require('../assets/images/google.png')}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logo} onPress={()=>this.numberSignin()}>
-            <Image style={styles.image} source={require('../assets/images/whatsapp.png')}/>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -137,7 +128,8 @@ function mapStateToProps(state)  {
 }
 
 export default connect(mapStateToProps, {
-  saveUserInfo
+  saveUserInfoFromGoogle,
+  saveUserInfoFromFacebook,
 })(Login);
 
 const styles = StyleSheet.create({
