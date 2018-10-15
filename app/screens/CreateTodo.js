@@ -5,6 +5,7 @@ import {color} from '../resource/color.js'
 import { connect } from 'react-redux';
 import store from '../config/store';
 import {saveTodo} from '../actions/saveTodo'
+import {editTodo} from '../actions/editTodo'
 import Toast from 'react-native-simple-toast';
 
 const HEIGHT=Dimensions.get('window').height
@@ -27,11 +28,24 @@ class CreateTodo extends Component<Props> {
 
   handleOnClickDone=()=>{
     if (this.state.title!=''||this.state.context!='') {
-      this.props.saveTodo({title:this.state.title,context:this.state.context})
+      if (this.props.navigation.state.params) {
+        this.props.editTodo({title:this.state.title,context:this.state.context},this.props.navigation.state.params.index)
+      }else{
+        this.props.saveTodo({title:this.state.title,context:this.state.context})
+      }
       console.log(store.getState())
       this.props.navigation.pop()
     }else {
       Toast.show('Empty fields!');
+    }
+  }
+
+  componentDidMount(){
+    if (this.props.navigation.state.params) {
+      this.setState({
+        title:this.props.navigation.state.params.title,
+        context:this.props.navigation.state.params.context
+      })
     }
   }
 
@@ -40,6 +54,7 @@ class CreateTodo extends Component<Props> {
       <View style={styles.container}>
         <TextInput style={styles.title}
           onChangeText={(text)=>this.setState({title:text})}
+          defaultValue={this.state.title}
           multiline = {true}
           autoCorrect={true}
           autoFocus={true}
@@ -47,6 +62,7 @@ class CreateTodo extends Component<Props> {
          />
          <TextInput style={styles.context}
            onChangeText={(text)=>this.setState({context:text})}
+           defaultValue={this.state.context}
            multiline = {true}
            autoCorrect={true}
            placeholder={string.context}
@@ -70,7 +86,8 @@ function mapStateToProps(state)  {
 }
 
 export default connect(mapStateToProps, {
-  saveTodo
+  saveTodo,
+  editTodo
 })(CreateTodo);
 
 const styles = StyleSheet.create({

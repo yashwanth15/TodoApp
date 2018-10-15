@@ -22,8 +22,8 @@ class Home extends Component<Props> {
     this.handleDeleteTodo=this.handleDeleteTodo.bind(this);
   }
 
-  handleOnClickItem=()=>{
-    this.props.navigation.navigate('CreateTodo')
+  handleOnClickItem=(item,index)=>{
+    this.props.navigation.navigate('CreateTodo',{title:item.title,context:item.context,index:index})
   }
 
   handleOnClickCreate=()=>{
@@ -66,7 +66,7 @@ class Home extends Component<Props> {
           refreshing={this.state.isLoading}
           onRefresh={()=>this.handleRetry()}
           renderItem={({item,index})=>(
-            <TouchableOpacity style={styles.card} onPress={()=>this.handleOnClickItem()}>
+            <TouchableOpacity style={styles.card} onPress={()=>this.handleOnClickItem(item,index)}>
               <View style={{padding:HEIGHT/60,flex:1}}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.context}>{item.context}</Text>
