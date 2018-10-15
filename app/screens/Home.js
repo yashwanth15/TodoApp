@@ -3,8 +3,10 @@ import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, F
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
 import { connect } from 'react-redux';
+import {deleteTodo} from '../actions/deleteTodo'
 
 const HEIGHT=Dimensions.get('window').height
+const WIDTH=Dimensions.get('window').width
 
 class Home extends Component<Props> {
 
@@ -17,6 +19,7 @@ class Home extends Component<Props> {
     this.handleOnClickItem=this.handleOnClickItem.bind(this);
     this.handleOnClickCreate=this.handleOnClickCreate.bind(this);
     this.handleRetry=this.handleRetry.bind(this);
+    this.handleDeleteTodo=this.handleDeleteTodo.bind(this);
   }
 
   handleOnClickItem=()=>{
@@ -29,6 +32,14 @@ class Home extends Component<Props> {
 
   handleRetry=()=>{
 
+  }
+
+  handleDeleteTodo=(index)=>{
+    this.props.deleteTodo(index);
+  }
+
+  componentDidMount(){
+    this.setState({todos:this.props.todos})
   }
 
   componentWillReceiveProps(props){
@@ -49,15 +60,20 @@ class Home extends Component<Props> {
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
-        <FlatList style={{marginTop:'2%'}}
+        <FlatList style={{marginTop:HEIGHT/60}}
           data={this.state.todos}
           keyExtractor={(item, index) => index+''}
           refreshing={this.state.isLoading}
           onRefresh={()=>this.handleRetry()}
-          renderItem={({item})=>(
+          renderItem={({item,index})=>(
             <TouchableOpacity style={styles.card} onPress={()=>this.handleOnClickItem()}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.context}>{item.context}</Text>
+              <View style={{padding:HEIGHT/60,flex:1}}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.context}>{item.context}</Text>
+              </View>
+              <TouchableOpacity onPress={()=>this.handleDeleteTodo(index)} style={{width:WIDTH/12,justifyContent:'center',alignItems:'center',paddingRight:WIDTH/60}}>
+                <Image style={{width:WIDTH/15,height:WIDTH/15}} resizeMode='contain' source={require('../assets/images/trash.png')}/>
+              </TouchableOpacity>
             </TouchableOpacity>
           )}
         />
@@ -75,12 +91,14 @@ const mapStateToProps=(state)=>  ({
   changed:state.saveTodo.changed,
 })
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps,{
+  deleteTodo
+})(Home);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding:'3%',
+    padding:HEIGHT/60,
     backgroundColor:color.white
   },
   header:{
@@ -91,7 +109,7 @@ const styles = StyleSheet.create({
   first_name:{
     fontFamily:string.robotoLight,
     fontSize:20,
-    margin:'3%',
+    margin:HEIGHT/60,
   },
   logout:{
     backgroundColor:color.black,
@@ -102,7 +120,7 @@ const styles = StyleSheet.create({
   },
   logoutText:{
     fontFamily:string.robotoLight,
-    margin:'3%',
+    margin:HEIGHT/60,
     color:color.white
   },
   add:{
@@ -114,14 +132,14 @@ const styles = StyleSheet.create({
   },
   image:{
     width:'100%',
-    height:'100%',
+    height:'100%'
   },
   card:{
     borderWidth:1,
     borderColor:color.black,
     backgroundColor:color.white,
-    padding:HEIGHT/60,
-    margin:'2%'
+    margin:HEIGHT/60,
+    flexDirection:'row'
   },
   title:{
     color:color.black,
@@ -131,7 +149,7 @@ const styles = StyleSheet.create({
   context:{
     color:color.black,
     fontSize:13,
-    marginTop:'1%',
+    marginTop:HEIGHT/120,
     fontFamily:string.robotoLight
   }
 });
