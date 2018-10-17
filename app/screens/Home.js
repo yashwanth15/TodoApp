@@ -111,16 +111,19 @@ const styles = StyleSheet.create({
     backgroundColor:color.white
   },
   header:{
+    borderRadius:50,
     flexDirection:'row',
     backgroundColor:color.grey,
     justifyContent:'space-between',
   },
   first_name:{
+    marginLeft:WIDTH/20,
     fontFamily:string.robotoLight,
     fontSize:20,
     margin:HEIGHT/60,
   },
   logout:{
+    borderRadius:50,
     backgroundColor:color.black,
     fontSize:16,
     justifyContent:'center',
@@ -129,7 +132,7 @@ const styles = StyleSheet.create({
   },
   logoutText:{
     fontFamily:string.robotoLight,
-    margin:HEIGHT/60,
+    margin:HEIGHT/50,
     color:color.white
   },
   add:{
@@ -144,10 +147,11 @@ const styles = StyleSheet.create({
     height:'100%'
   },
   card:{
+    borderRadius:5,
     borderWidth:1,
     borderColor:color.black,
     backgroundColor:color.white,
-    margin:HEIGHT/60,
+    margin:HEIGHT/100,
     flexDirection:'row'
   },
   title:{

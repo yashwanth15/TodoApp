@@ -9,6 +9,7 @@ import {editTodo} from '../actions/editTodo'
 import Toast from 'react-native-simple-toast';
 
 const HEIGHT=Dimensions.get('window').height
+const WIDTH=Dimensions.get('window').width
 
 class CreateTodo extends Component<Props> {
 
@@ -94,46 +95,54 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor:color.white,
+    paddingHorizontal:HEIGHT/60,
   },
   title:{
+    borderRadius:5,
     borderWidth:1,
     borderColor:color.black,
-    marginHorizontal:'2%',
-    marginTop:'2%',
     fontSize:18,
     fontFamily:string.robotoRegular,
-    paddingHorizontal:'3%',
+    padding:HEIGHT/60,
+    paddingTop:HEIGHT/55,
+    marginTop:HEIGHT/60,
   },
   context:{
+    borderRadius:5,
     borderWidth:1,
     borderColor:color.black,
-    margin:'2%',
     fontSize:15,
-    paddingHorizontal:'3%',
+    marginTop:HEIGHT/60,
+    paddingTop:HEIGHT/55,
+    padding:HEIGHT/60,
     flex:1,
     fontFamily:string.robotoLight,
     textAlignVertical: 'top'
   },
   buttons:{
+    marginVertical:HEIGHT/60,
     flexDirection:'row',
-    height:HEIGHT/10,
-    width:'100%'
+    height:HEIGHT/12,
+    backgroundColor:color.grey,
+    borderRadius:50,
   },
   cancel:{
-    width:'50%',
-    height:'100%',
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor:color.grey,
     textAlign:'center',
+    borderTopLeftRadius:50,
+    borderBottomLeftRadius:50,
   },
   done:{
-    width:'50%',
-    height:'100%',
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor:color.black,
     textAlign:'center',
+    borderTopRightRadius:50,
+    borderBottomRightRadius:50,
   },
   cancelText:{
     color:color.black,

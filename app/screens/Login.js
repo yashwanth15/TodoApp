@@ -118,7 +118,7 @@ class Login extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{backgroundColor:color.black}}>
+        <View style={{backgroundColor:color.black,borderRadius:50}}>
           <Text style={styles.todo}>{string.todo}</Text>
         </View>
         <Text style={styles.continueWith}>{string.continueWith}</Text>
