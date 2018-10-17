@@ -5,8 +5,9 @@ import {color} from '../resource/color.js'
 import { connect } from 'react-redux';
 import FBSDK, { AccessToken,LoginManager} from 'react-native-fbsdk'
 import Toast from 'react-native-simple-toast';
-import {saveUserInfoFromGoogle,saveUserInfoFromFacebook} from '../actions/saveUserInfo'
+import {saveUserInfoFromGoogle,saveUserInfoFromFacebook,saveNameEmail} from '../actions/saveUserInfo'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+import { AsyncStorage } from "react-native"
 
 const {GraphRequest,GraphRequestManager} = FBSDK;
 const HEIGHT=Dimensions.get('window').height
@@ -98,6 +99,18 @@ class Login extends Component<Props> {
     this.props.navigation.navigate('Home')
   }
 
+  componentWillMount(){
+    console.log('in Login');
+    AsyncStorage.multiGet(['TodoAppUserEmail','TodoAppUserName'])
+    .then((response)=>{
+      if (response[0][1]) {
+        this.props.saveNameEmail({"email":response[0][1],"userName":response[1][1]})
+        this.props.navigation.navigate('Home');
+      }
+    })
+    .catch((e)=>console.log('error',e))
+  }
+
   componentDidMount(){
     GoogleSignin.configure();
   }
@@ -130,6 +143,7 @@ function mapStateToProps(state)  {
 export default connect(mapStateToProps, {
   saveUserInfoFromGoogle,
   saveUserInfoFromFacebook,
+  saveNameEmail,
 })(Login);
 
 const styles = StyleSheet.create({
