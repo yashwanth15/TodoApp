@@ -6,11 +6,8 @@
  */
 
 #import "AppDelegate.h"
-#import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
-#import <AppCenterReactNativeAnalytics/AppCenterReactNativeAnalytics.h>
-#import <AppCenterReactNative/AppCenterReactNative.h>
 #import <CodePush/CodePush.h>
-
+#import <RNGoogleSignin/RNGoogleSignin.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -26,11 +23,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   
   NSURL *jsCodeLocation;
 
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
-
-  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];  // Initialize AppCenter analytics
-
-  [AppCenterReactNative register];  // Initialize AppCenter 
   
   
     #ifdef DEBUG
@@ -63,8 +55,22 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                                                       sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                                                              annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
                   ];
+  BOOL handledGoogle = [RNGoogleSignin application:application
+                                           openURL:url
+                                 sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                        annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
   // Add any custom logic here.
-  return handled;
+  return handled || handledGoogle;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  
+  return [RNGoogleSignin application:application
+                             openURL:url
+                   sourceApplication:sourceApplication
+                          annotation:annotation
+          ];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
