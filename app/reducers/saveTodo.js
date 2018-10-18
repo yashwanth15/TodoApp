@@ -21,6 +21,10 @@ export default (state = initialState, action) => {
     todos=state.todos;
     todos[action.index]=action.payload;
     return {...state,todos:todos,changed:!state.changed}
+  case constants.REPLACE_TODO:
+    return {...state,todos:action.payload}
+  case constants.CLEAR_DATA:
+    return {...state, todos:[{title:'Welcome',context:'Click to edit'}],changed:false,length:1}
    default:
      return state;
  }

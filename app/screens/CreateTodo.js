@@ -7,6 +7,7 @@ import store from '../config/store';
 import {saveTodo} from '../actions/saveTodo'
 import {editTodo} from '../actions/editTodo'
 import Toast from 'react-native-simple-toast';
+import { AsyncStorage } from "react-native"
 
 const HEIGHT=Dimensions.get('window').height
 const WIDTH=Dimensions.get('window').width
@@ -34,7 +35,7 @@ class CreateTodo extends Component<Props> {
       }else{
         this.props.saveTodo({title:this.state.title,context:this.state.context})
       }
-      console.log(store.getState())
+      AsyncStorage.setItem('todos',JSON.stringify(this.props.todos));
       this.props.navigation.pop()
     }else {
       Toast.show('Empty fields!');
@@ -83,6 +84,7 @@ class CreateTodo extends Component<Props> {
 
 function mapStateToProps(state)  {
     return {
+      todos:state.saveTodo.todos,
     };
 }
 

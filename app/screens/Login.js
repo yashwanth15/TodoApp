@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import FBSDK, { AccessToken,LoginManager} from 'react-native-fbsdk'
 import Toast from 'react-native-simple-toast';
 import {saveUserInfoFromGoogle,saveUserInfoFromFacebook,saveNameEmail} from '../actions/saveUserInfo'
+import {replaceTodos} from '../actions/saveTodo'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import { AsyncStorage } from "react-native"
 
@@ -101,10 +102,11 @@ class Login extends Component<Props> {
 
   componentWillMount(){
     console.log('in Login');
-    AsyncStorage.multiGet(['TodoAppUserEmail','TodoAppUserName'])
+    AsyncStorage.multiGet(['TodoAppUserEmail','TodoAppUserName','todos'])
     .then((response)=>{
       if (response[0][1]) {
         this.props.saveNameEmail({"email":response[0][1],"userName":response[1][1]})
+        this.props.replaceTodos(JSON.parse(response[2][1]))
         this.props.navigation.navigate('Home');
       }
     })
@@ -144,6 +146,7 @@ export default connect(mapStateToProps, {
   saveUserInfoFromGoogle,
   saveUserInfoFromFacebook,
   saveNameEmail,
+  replaceTodos
 })(Login);
 
 const styles = StyleSheet.create({

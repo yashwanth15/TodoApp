@@ -5,3 +5,9 @@ export const deleteTodo=(index) => {
     payload:index,
   };
 }
+
+export const clearData=() => {
+  return {
+    type: constants.CLEAR_DATA,
+  };
+}

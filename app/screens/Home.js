@@ -3,7 +3,7 @@ import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, F
 import {string} from '../resource/string.js'
 import {color} from '../resource/color.js'
 import { connect } from 'react-redux';
-import {deleteTodo} from '../actions/deleteTodo'
+import {deleteTodo,clearData} from '../actions/deleteTodo'
 import { AsyncStorage } from "react-native"
 
 const HEIGHT=Dimensions.get('window').height
@@ -37,9 +37,10 @@ class Home extends Component<Props> {
   }
 
   logout=()=>{
-    AsyncStorage.multiRemove(['TodoAppUserEmail','TodoAppUserName'])
+    AsyncStorage.multiRemove(['TodoAppUserEmail','TodoAppUserName','todos'])
     .then((response)=>console.log('response',response))
-    .catch((e)=>console.log('error',e))
+    .catch((e)=>console.log('error',e));
+    this.props.clearData();
     this.props.navigation.navigate('Login');
   }
 
@@ -51,8 +52,8 @@ class Home extends Component<Props> {
     this.setState({todos:this.props.todos})
   }
 
+
   componentWillReceiveProps(props){
-    console.log('in props',props);
     if (this.state.todos.length!=props.todos.length) {
       this.setState({
         todos:props.todos
@@ -101,7 +102,8 @@ const mapStateToProps=(state)=>  ({
 })
 
 export default connect(mapStateToProps,{
-  deleteTodo
+  deleteTodo,
+  clearData,
 })(Home);
 
 const styles = StyleSheet.create({
