@@ -3,5 +3,6 @@ export const color={
   black:'black',
   lightGrey:'#ededed',
   grey:'#eaebed',
-  darkGrey:'#d4d4d6'
+  darkGrey:'#d4d4d6',
+  veryDarkGrey:'#a0a0a0'
 }

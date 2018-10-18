@@ -80,11 +80,11 @@ class Home extends Component<Props> {
           renderItem={({item,index})=>(
             <TouchableOpacity style={styles.card} onPress={()=>this.handleOnClickItem(item,index)}>
               <View style={{padding:HEIGHT/60,flex:1}}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.context}>{item.context}</Text>
+                <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
+                <Text style={styles.context} numberOfLines={1}>{item.context}</Text>
               </View>
               <TouchableOpacity onPress={()=>this.handleDeleteTodo(index)} style={{width:WIDTH/12,justifyContent:'center',alignItems:'center',paddingRight:WIDTH/60}}>
-                <Image style={{width:WIDTH/20,height:WIDTH/20,tintColor:color.darkGrey}} resizeMode='contain' source={require('../assets/images/trash.png')}/>
+                <Image style={{width:WIDTH/20,height:WIDTH/20,tintColor:color.veryDarkGrey}} resizeMode='contain' source={require('../assets/images/trash.png')}/>
               </TouchableOpacity>
             </TouchableOpacity>
           )}
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     shadowColor: color.lightGrey,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    elevation:5
+    elevation:2
   },
   title:{
     color:color.black,
