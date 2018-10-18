@@ -68,7 +68,7 @@ class Home extends Component<Props> {
         <View style={styles.header}>
           <Text style={styles.first_name}>{this.props.first_name}</Text>
           <TouchableOpacity style={styles.logout} onPress={()=>this.logout()}>
-            <Image style={{width:WIDTH/20,height:WIDTH/20}} source={require('../assets/images/logout.png')}/>
+            <Image style={{width:WIDTH/20,height:WIDTH/20}} resizeMode='contain' source={require('../assets/images/logout.png')}/>
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   },
   first_name:{
     marginLeft:WIDTH/20,
+    color:color.black,
     fontFamily:string.robotoBold,
     fontSize:20,
     margin:HEIGHT/60,

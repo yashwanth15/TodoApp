@@ -189,8 +189,8 @@ const styles = StyleSheet.create({
     fontFamily:string.robotoLight
   },
   logo:{
-    width:HEIGHT/20,
-    height:HEIGHT/20,
+    width:HEIGHT/19,
+    height:HEIGHT/19,
     marginHorizontal:HEIGHT/30,
   },
   image:{
