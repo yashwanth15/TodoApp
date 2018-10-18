@@ -35,7 +35,7 @@ class CreateTodo extends Component<Props> {
       }else{
         this.props.saveTodo({title:this.state.title,context:this.state.context})
       }
-      AsyncStorage.setItem('todos',JSON.stringify(this.props.todos));
+      AsyncStorage.setItem(this.props.email,JSON.stringify(this.props.todos));
       this.props.navigation.pop()
     }else {
       Toast.show('Empty fields!');
@@ -85,6 +85,8 @@ class CreateTodo extends Component<Props> {
 function mapStateToProps(state)  {
     return {
       todos:state.saveTodo.todos,
+      first_name:state.userInfo.first_name,
+      email:state.userInfo.email,
     };
 }
 

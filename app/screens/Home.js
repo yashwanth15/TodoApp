@@ -38,15 +38,15 @@ class Home extends Component<Props> {
 
   logout=()=>{
     AsyncStorage.multiRemove(['TodoAppUserEmail','TodoAppUserName','todos'])
-    .then((response)=>console.log('response',response))
-    .catch((e)=>console.log('error',e));
+    .then((response)=>console.log('responseLogout',response))
+    .catch((e)=>console.log('errorLogout',e));
     this.props.clearData();
     this.props.navigation.navigate('Login');
   }
 
   handleDeleteTodo=(index)=>{
     this.props.deleteTodo(index);
-    AsyncStorage.setItem('todos',JSON.stringify(this.props.todos));
+    AsyncStorage.setItem(this.props.email,JSON.stringify(this.props.todos));
   }
 
   componentDidMount(){
@@ -58,7 +58,7 @@ class Home extends Component<Props> {
     if (this.state.todos&&this.state.todos.length!=props.todos.length) {
       this.setState({
         todos:props.todos
-      },()=>console.log('Props',this.state.todos))
+      },()=>console.log('PropsHome',this.state.todos))
     }
   }
 
@@ -101,6 +101,7 @@ const mapStateToProps=(state)=>  ({
   first_name:state.userInfo.first_name,
   todos:state.saveTodo.todos,
   changed:state.saveTodo.changed,
+  email:state.userInfo.email,
 })
 
 export default connect(mapStateToProps,{
@@ -156,7 +157,6 @@ const styles = StyleSheet.create({
   },
   card:{
     borderRadius:5,
-    borderWidth:1,
     borderColor:color.grey,
     backgroundColor:color.white,
     margin:HEIGHT/100,
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     shadowColor: color.lightGrey,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
+    elevation:5
   },
   title:{
     color:color.black,

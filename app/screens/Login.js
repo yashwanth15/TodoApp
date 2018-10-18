@@ -32,7 +32,14 @@ class Login extends Component<Props> {
       const userInfo = await GoogleSignin.signIn();
       console.log('user',userInfo.user);
       this.props.saveUserInfoFromGoogle(userInfo.user);
-      this.props.navigation.navigate('Home');
+      AsyncStorage.getItem(userInfo.user.email)
+      .then((response)=>{
+        if (response) {
+          this.props.replaceTodos(JSON.parse(response))
+        }
+        this.props.navigation.navigate('Home');
+      })
+      .catch((e)=>console.log('error',e))
     }catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('cancelled');
@@ -67,7 +74,14 @@ class Login extends Component<Props> {
         }
         else{
           that.props.saveUserInfoFromFacebook(response);
-          that.props.navigation.navigate('Home')
+          AsyncStorage.getItem(response.email)
+          .then((response)=>{
+            if (response) {
+              that.props.replaceTodos(JSON.parse(response))
+            }
+            that.props.navigation.navigate('Home');
+          })
+          .catch((e)=>console.log('error',e))
           Toast.show('Logged in!')
         }
       }
@@ -106,8 +120,12 @@ class Login extends Component<Props> {
     .then((response)=>{
       if (response[0][1]) {
         this.props.saveNameEmail({"email":response[0][1],"userName":response[1][1]})
-        this.props.replaceTodos(JSON.parse(response[2][1]))
-        this.props.navigation.navigate('Home');
+        AsyncStorage.getItem(response[0][1].toString())
+        .then((response)=>{
+          this.props.replaceTodos(JSON.parse(response))
+          this.props.navigation.navigate('Home');
+        })
+        .catch((e)=>console.log('error',e))
       }
     })
     .catch((e)=>console.log('error',e))

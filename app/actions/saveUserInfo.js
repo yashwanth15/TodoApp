@@ -4,8 +4,8 @@ import { AsyncStorage } from "react-native"
 function saveId(id,name){
   console.log('saveId',id);
   AsyncStorage.multiSet([['TodoAppUserEmail', id.toString()],['TodoAppUserName',name]])
-  .then((response)=>console.log('response',response))
-  .catch((e)=>console.log('error',e))
+  .then((response)=>console.log('responseSaveUserInfo',response))
+  .catch((e)=>console.log('errorSaveUserInfo',e))
 }
 
 export const saveUserInfoFromFacebook=(info) => {
