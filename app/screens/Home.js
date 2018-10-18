@@ -46,6 +46,7 @@ class Home extends Component<Props> {
 
   handleDeleteTodo=(index)=>{
     this.props.deleteTodo(index);
+    AsyncStorage.setItem('todos',JSON.stringify(this.props.todos));
   }
 
   componentDidMount(){
@@ -54,7 +55,7 @@ class Home extends Component<Props> {
 
 
   componentWillReceiveProps(props){
-    if (this.state.todos.length!=props.todos.length) {
+    if (this.state.todos&&this.state.todos.length!=props.todos.length) {
       this.setState({
         todos:props.todos
       },()=>console.log('Props',this.state.todos))
@@ -67,7 +68,7 @@ class Home extends Component<Props> {
         <View style={styles.header}>
           <Text style={styles.first_name}>{this.props.first_name}</Text>
           <TouchableOpacity style={styles.logout} onPress={()=>this.logout()}>
-            <Image style={{width:WIDTH/17,height:WIDTH/17}} source={require('../assets/images/logout.png')}/>
+            <Image style={{width:WIDTH/20,height:WIDTH/20}} source={require('../assets/images/logout.png')}/>
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
   header:{
     borderRadius:50,
     flexDirection:'row',
-    backgroundColor:color.grey,
+    backgroundColor:color.lightGrey,
     justifyContent:'space-between',
   },
   first_name:{
@@ -139,7 +140,8 @@ const styles = StyleSheet.create({
   logoutText:{
     fontFamily:string.robotoLight,
     color:color.black,
-    fontSize:12,
+    fontSize:10,
+    marginTop:HEIGHT/200,
   },
   add:{
     position:'absolute',
@@ -158,7 +160,10 @@ const styles = StyleSheet.create({
     borderColor:color.grey,
     backgroundColor:color.white,
     margin:HEIGHT/100,
-    flexDirection:'row'
+    flexDirection:'row',
+    shadowColor: color.lightGrey,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
   },
   title:{
     color:color.black,

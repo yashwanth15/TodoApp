@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
     paddingHorizontal:HEIGHT/60,
   },
   title:{
+    borderColor:color.grey,
     borderRadius:5,
     borderWidth:1,
-    borderColor:color.black,
     fontSize:18,
     fontFamily:string.robotoRegular,
     padding:HEIGHT/60,
@@ -110,9 +110,9 @@ const styles = StyleSheet.create({
     marginTop:HEIGHT/60,
   },
   context:{
+    borderColor:color.grey,
     borderRadius:5,
     borderWidth:1,
-    borderColor:color.black,
     fontSize:15,
     marginTop:HEIGHT/60,
     paddingTop:HEIGHT/55,
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:color.black,
+    backgroundColor:color.darkGrey,
     textAlign:'center',
     borderTopRightRadius:50,
     borderBottomRightRadius:50,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     fontFamily:string.robotoLight
   },
   doneText:{
-    color:color.white,
+    color:color.black,
     fontSize:13,
     fontFamily:string.robotoLight
   }
