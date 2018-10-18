@@ -67,6 +67,7 @@ class Home extends Component<Props> {
         <View style={styles.header}>
           <Text style={styles.first_name}>{this.props.first_name}</Text>
           <TouchableOpacity style={styles.logout} onPress={()=>this.logout()}>
+            <Image style={{width:WIDTH/17,height:WIDTH/17}} source={require('../assets/images/logout.png')}/>
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -82,7 +83,7 @@ class Home extends Component<Props> {
                 <Text style={styles.context}>{item.context}</Text>
               </View>
               <TouchableOpacity onPress={()=>this.handleDeleteTodo(index)} style={{width:WIDTH/12,justifyContent:'center',alignItems:'center',paddingRight:WIDTH/60}}>
-                <Image style={{width:WIDTH/15,height:WIDTH/15}} resizeMode='contain' source={require('../assets/images/trash.png')}/>
+                <Image style={{width:WIDTH/20,height:WIDTH/20,tintColor:color.darkGrey}} resizeMode='contain' source={require('../assets/images/trash.png')}/>
               </TouchableOpacity>
             </TouchableOpacity>
           )}
@@ -120,29 +121,32 @@ const styles = StyleSheet.create({
   },
   first_name:{
     marginLeft:WIDTH/20,
-    fontFamily:string.robotoLight,
+    fontFamily:string.robotoBold,
     fontSize:20,
     margin:HEIGHT/60,
   },
   logout:{
     borderRadius:50,
-    backgroundColor:color.black,
+    backgroundColor:color.white,
     fontSize:16,
+    borderColor:color.grey,
+    borderWidth:0.5,
+    paddingHorizontal:WIDTH/20,
     justifyContent:'center',
     textAlign:'center',
     alignItems:'center',
   },
   logoutText:{
     fontFamily:string.robotoLight,
-    margin:HEIGHT/50,
-    color:color.white
+    color:color.black,
+    fontSize:12,
   },
   add:{
     position:'absolute',
     bottom:25,
     right:25,
-    width:HEIGHT/12,
-    height:HEIGHT/12,
+    width:HEIGHT/15,
+    height:HEIGHT/15,
   },
   image:{
     width:'100%',
@@ -151,7 +155,7 @@ const styles = StyleSheet.create({
   card:{
     borderRadius:5,
     borderWidth:1,
-    borderColor:color.black,
+    borderColor:color.grey,
     backgroundColor:color.white,
     margin:HEIGHT/100,
     flexDirection:'row'
